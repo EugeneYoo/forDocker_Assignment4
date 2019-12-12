@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assignment4
+spec:
+  selector:
+    matchLabels:
+      app: my-web
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: my-web
+    spec:
+    #  initContainers:
+      containers:
+      - name: redis-db
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+      - name: my-web
+        image: dbdbwls16/assignment4:python
+        env:
+        - name: REDIS_HOST
+          value: localhost
+        ports:
+        - containerPort: 5000
+      
